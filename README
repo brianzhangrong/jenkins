@@ -1,1 +1,2 @@
+#创建ns
 kubectl create namespace kube-ops
