@@ -4,12 +4,13 @@ metadata:
   name: opspv
 spec:
   capacity:
-    storage: 20Gi
+    storage: 10Gi
   accessModes:
   - ReadWriteMany
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Recycle
+  storageClassName: nfs
   nfs:
-    server: 10.206.0.12
+    server: 10.206.0.2
     path: /data/k8s
 
 ---
@@ -21,6 +22,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
+  storageClassName: nfs
   resources:
     requests:
-      storage: 20Gi
+      storage: 10Gi
