@@ -4,7 +4,7 @@ metadata:
   name: opspv
 spec:
   capacity:
-    storage: 10Gi
+    storage: 20Gi
   accessModes:
   - ReadWriteMany
   persistentVolumeReclaimPolicy: Recycle
@@ -25,4 +25,4 @@ spec:
   storageClassName: nfs
   resources:
     requests:
-      storage: 10Gi
+      storage: 20Gi

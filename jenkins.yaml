@@ -18,6 +18,7 @@ spec:
       containers:
       - name: jenkins
         image: jenkins/jenkins:lts
+        args: ['\$(JENKINS_SECRET)', '\$(JENKINS_NAME)']
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
