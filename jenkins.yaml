@@ -18,7 +18,7 @@ spec:
       containers:
       - name: jenkins
         image: jenkins/jenkins:lts
-        args: ['\$(JENKINS_SECRET)', '\$(JENKINS_NAME)']
+        #args: ['\$(JENKINS_SECRET)', '\$(JENKINS_NAME)']
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
@@ -52,6 +52,7 @@ spec:
         - name: jenkinshome
           subPath: jenkins
           mountPath: /var/jenkins_home
+        #command: ["jenkins-agent"]
         env:
         - name: LIMITS_MEMORY
           valueFrom:
