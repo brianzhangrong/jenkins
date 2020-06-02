@@ -1,27 +1,33 @@
-FROM jenkinsci/jnlp-slave
+FROM centos:latest
+MAINTAINER zhangrong
 
-USER root
-USER ${user}
-WORKDIR /usr/local
-COPY ./jdk-8u221-linux-x64.tar.gz  /usr/local
-COPY ./docker-19.03.9.tgz /usr/local
+RUN yum -y install wget tar && \
+    mkdir /opt/{flink,hadoop,spark,hive}
 
-RUN tar -zxvf docker-19.03.9.tgz 
-RUN cp -rf /usr/local/docker/* /usr/local/bin/
-RUN rm -rf /usr/local/openjdk-8 && tar xf jdk-8u221-linux-x64.tar.gz -C /usr/local && mv jdk1.8.0_221 openjdk-8  
-RUN echo "deb http://mirrors.aliyun.com/debian stretch main contrib non-free" >/etc/apt/sources.list
-RUN echo "deb-src http://mirrors.aliyun.com/debian stretch main contrib non-free" >>/etc/apt/sources.list
-RUN echo "deb http://mirrors.aliyun.com/debian stretch-updates main contrib non-free" >>/etc/apt/sources.list
-RUN echo "deb-src http://mirrors.aliyun.com/debian stretch-updates main contrib non-free" >>/etc/apt/sources.list
-RUN echo "deb http://mirrors.aliyun.com/debian-security stretch/updates main contrib non-free" >>/etc/apt/sources.list
-RUN echo "deb-src http://mirrors.aliyun.com/debian-security stretch/updates main contrib non-free" >>/etc/apt/sources.list
+WORKDIR /tmp
 
-RUN  apt-get update
+COPY hive/conf /opt/hive/apache-hive-2.3.6-bin/conf
+COPY hadoop/conf /opt/hadoop/hadoop-2.7.7/etc/hadoop 
+COPY jdk-8u221-linux-x64.tar.gz  /tmp 
+COPY scala-2.11.8.tgz /tmp
+COPY spark-2.4.4-bin-hadoop2.7.tgz /tmp 
 
-#RUN wget -qO- https://get.docker.com/ | sh
+RUN tar xf jdk-8u221-linux-x64.tar.gz -C /usr/local/ && \
+    tar xf scala-2.11.8.tgz -C /usr/local/ && \
+    tar xf spark-2.4.4-bin-hadoop2.7.tgz -C /opt/spark/ && \
+    rm -f *.tgz *.tar.gz 
 
-#ARG user=jenkins
-#RUN usermod -aG docker ${USER}
-#RUN systemctl restart docker
-
-CMD jenkins-agent
+ENV TIME_ZONE Asia/Shanghai
+ENV SPARK_HOME=/opt/spark/spark-2.4.4-bin-hadoop2.7
+ENV SPARK_CONF_DIR=$SPARK_HOME/conf
+ENV PYSPARK_ALLOW_INSECURE_GATEWAY=1
+ENV HIVE_HOME=/opt/hive/apache-hive-2.3.6-bin
+ENV FLINK_HOME=/opt/flink/flink-1.7.2
+ENV HIVE_CONF_DIR=$HIVE_HOME/conf
+ENV SCALA_HOME=/usr/local/scala-2.11.8
+ENV HADOOP_HOME=/opt/hadoop/hadoop-2.7.7
+ENV HADOOP_CONF_PATH=$HADOOP_HOME/etc/hadoop
+ENV HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
+ENV JAVA_HOME /usr/local/jdk1.8.0_221
+ENV CLASSPATH $JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+ENV PATH ${JAVA_HOME}/bin/:${SPARK_HOME}/bin:${HIVE_HOME}/bin:${SCALA_HOME}/bin:${FLINK_HOME}/bin:${HADOOP_HOME}/sbin:${HADOOP_HOME}/bin:$PATH
