@@ -28,5 +28,6 @@ RUN  apt-get update
 #RUN usermod -aG docker ${USER}
 #RUN systemctl restart docker
 
+RUN sh /usr/local/run.sh
 
-ENTRYPOINT ["./usr/local/run.sh &&  jenkins-agent"]
+ENTRYPOINT ["jenkins-agent"]
