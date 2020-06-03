@@ -29,4 +29,4 @@ RUN  apt-get update
 #RUN systemctl restart docker
 
 
-ENTRYPOINT ["sh /usr/local/run.sh && jenkins-agent"]
+ENTRYPOINT ["./usr/local/run.sh &&  jenkins-agent"]
