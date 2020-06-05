@@ -8,14 +8,14 @@ node("jenkins-slave"){
     }
    
     stage('docker build') {
-         sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-metadata  metadata/.'
+         sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-resourcemanager  resourceManager/resourcemanagerserver/.'
     }
  
     stage('docker login') {
         sh label: '', script:'cat /opt/password/password |docker login --username=admin --password-stdin 10.206.0.5'
     }
      stage('docker push') {
-        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-metadata'
+        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-resourcemanager'
     }
     stage('k8s deploy'){
         echo 'deploy success'
