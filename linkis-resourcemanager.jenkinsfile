@@ -4,18 +4,18 @@ node("jenkins-slave"){
     }
 
     stage('maven') {
-       sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package -f gateway/gateway-ujes-support/pom.xml'
+       sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package -f metadata/pom.xml'
     }
    
     stage('docker build') {
-         sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-gateway  gateway/gateway-ujes-support/.'
+         sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-metadata  metadata/.'
     }
  
     stage('docker login') {
         sh label: '', script:'cat /opt/password/password |docker login --username=admin --password-stdin 10.206.0.5'
     }
      stage('docker push') {
-        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-gateway'
+        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-metadata'
     }
     stage('k8s deploy'){
         echo 'deploy success'
