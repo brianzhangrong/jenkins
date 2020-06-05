@@ -1,0 +1,42 @@
+node("jenkins-slave"){
+    stage('linkis-gateway') {
+        step{
+            sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package -f gateway/gateway-ujes-support/pom.xml'
+        }
+        step{
+            sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-gateway  gateway/gateway-ujes-support/.'
+        }
+    }
+
+    stage('linkis-metadata') {
+        step{
+            sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package -f metadata/pom.xml'
+        }
+        step{
+            sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-metadata  metadata/.'
+        }
+    }
+
+    stage('linkis-resourcemanager') {
+        step{
+            sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package -f resourceManager/resourcemanagerserver/pom.xml'
+        }
+        step{
+            sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-resourcemanager  resourceManager/resourcemanagerserver/.'
+        }
+    }
+   
+ 
+    stage('docker login') {
+        sh label: '', script:'cat /opt/password/password |docker login --username=admin --password-stdin 10.206.0.5'
+    }
+     stage('docker push') {
+        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-gateway'
+        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-metadata'
+        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-publicservice'
+    }
+    stage('k8s deploy'){
+        echo 'deploy success'
+    }
+    
+}
