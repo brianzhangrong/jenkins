@@ -3,86 +3,30 @@ node("jenkins-slave"){
         sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn -N clean  install'
     }
 
-    stage('linkis-gateway') {
-        sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package -f gateway/gateway-ujes-support/pom.xml'
+    stage('mvn build') {
+        sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package'
+    }
+
+    stage('docker build') {
         sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-gateway  gateway/gateway-ujes-support/.'
-    }
-
-    stage('linkis-metadata') {
-        sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package -f metadata/pom.xml'
         sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-metadata  metadata/.'
-    }
-
-    stage('linkis-resourcemanager') {
-        sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package -f resourceManager/resourcemanagerserver/pom.xml'
         sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-resourcemanager  resourceManager/resourcemanagerserver/.'
-    }
-
-    stage('linkis-bml') {
-        sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package -f bml/bmlserver/pom.xml'
         sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-bml  bml/bmlserver/.'
-    }
-
-    stage('linkis-publicService') {
-        sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package -f publicService/pom.xml'
         sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-publicservice  publicService/.'
-    }
-
-     stage('linkis-ujes-hive-entrance') {
-        sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package -f ujes/definedEngines/hive/entrance/pom.xml'
         sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-ujes-hive-entrance  ujes/definedEngines/hive/entrance/.'
-    }
-
-    stage('linkis-ujes-hive-enginemanager') {
-        sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package -f ujes/definedEngines/hive/enginemanager/pom.xml'
         sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-ujes-hive-enginemanager  ujes/definedEngines/hive/enginemanager/.'
-    }
-
-    stage('linkis-ujes-jdbcentrance') {
-        sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package -f ujes/definedEngines/jdbc/entrance/pom.xml'
         sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-ujes-jdbcentrance  ujes/definedEngines/jdbc/entrance/.'
-    }
-     stage('linkis-ujes-mlsql-entrance') {
-        sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package -f ujes/definedEngines/mlsql/entrance/pom.xml'
         sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-ujes-mlsql-entrance  ujes/definedEngines/mlsql/entrance/.'
-    }
-    stage('linkis-ujes-pipeline-enginemanager') {
-        sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package -f ujes/definedEngines/pipeline/enginemanager/pom.xml'
         sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-ujes-pipeline-enginemanager  ujes/definedEngines/pipeline/enginemanager/.'
-    }
-    stage('linkis-ujes-pipeline-entrance') {
-        sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package -f ujes/definedEngines/pipeline/entrance/pom.xml'
         sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-ujes-pipeline-entrance  ujes/definedEngines/pipeline/entrance/.'
-    }
-
-    stage('linkis-ujes-spark-entrance') {
-        sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package -f ujes/definedEngines/spark/entrance/pom.xml'
         sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-ujes-spark-entrance  ujes/definedEngines/spark/entrance/.'
-    }
-   stage('linkis-ujes-spark-enginemanager') {
-        sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package -f ujes/definedEngines/spark/enginemanager/pom.xml'
         sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-ujes-spark-enginemanager  ujes/definedEngines/spark/enginemanager/.'
-    }
-
-
-  stage('linkis-ujes-shell-entrance') {
-        sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package -f ujes/definedEngines/shell/entrance/pom.xml'
         sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-ujes-shell-entrance  ujes/definedEngines/shell/entrance/.'
-    }
-   stage('linkis-ujes-shell-enginemanager') {
-        sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package -f ujes/definedEngines/shell/enginemanager/pom.xml'
         sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-ujes-shell-enginemanager  ujes/definedEngines/shell/enginemanager/.'
-    }
-
-    stage('linkis-ujes-python-entrance') {
-        sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package -f ujes/definedEngines/python/entrance/pom.xml'
         sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-ujes-python-entrance  ujes/definedEngines/python/entrance/.'
-    }
-   stage('linkis-ujes-python-enginemanager') {
-        sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package -f ujes/definedEngines/python/enginemanager/pom.xml'
         sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-ujes-python-enginemanager  ujes/definedEngines/python/enginemanager/.'
     }
- 
+
     stage('docker login') {
         sh label: '', script:'cat /opt/password/password |docker login --username=admin --password-stdin 10.206.0.5'
     }
@@ -100,7 +44,6 @@ node("jenkins-slave"){
         sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-ujes-pipeline-entrance'
         sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-ujes-spark-enginemanager'
         sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-ujes-spark-entrance'
-
         sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-ujes-shell-enginemanager'
         sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-ujes-shell-entrance'
         sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-ujes-python-enginemanager'
