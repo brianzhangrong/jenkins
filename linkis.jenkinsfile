@@ -1,7 +1,7 @@
 node("jenkins-slave"){
     stage('linkis-gateway') {
         
-        sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  install'
+        sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn -N clean  install'
         
     }
 
