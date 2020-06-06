@@ -7,26 +7,6 @@ node("jenkins-slave"){
         sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package'
     }
 
-    stage('docker build') {
-        sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-gateway  gateway/gateway-ujes-support/.'
-        sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-metadata  metadata/.'
-        sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-resourcemanager  resourceManager/resourcemanagerserver/.'
-        sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-bml  bml/bmlserver/.'
-        sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-publicservice  publicService/.'
-        sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-ujes-hive-entrance  ujes/definedEngines/hive/entrance/.'
-        sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-ujes-hive-enginemanager  ujes/definedEngines/hive/enginemanager/.'
-        sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-ujes-jdbcentrance  ujes/definedEngines/jdbc/entrance/.'
-        sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-ujes-mlsql-entrance  ujes/definedEngines/mlsql/entrance/.'
-        sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-ujes-pipeline-enginemanager  ujes/definedEngines/pipeline/enginemanager/.'
-        sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-ujes-pipeline-entrance  ujes/definedEngines/pipeline/entrance/.'
-        sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-ujes-spark-entrance  ujes/definedEngines/spark/entrance/.'
-        sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-ujes-spark-enginemanager  ujes/definedEngines/spark/enginemanager/.'
-        sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-ujes-shell-entrance  ujes/definedEngines/shell/entrance/.'
-        sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-ujes-shell-enginemanager  ujes/definedEngines/shell/enginemanager/.'
-        sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-ujes-python-entrance  ujes/definedEngines/python/entrance/.'
-        sh label: '', script: 'docker build -t 10.206.0.5/library/linkis:linkis-ujes-python-enginemanager  ujes/definedEngines/python/enginemanager/.'
-    }
-
     stage('docker login') {
         sh label: '', script:'cat /opt/password/password |docker login --username=admin --password-stdin 10.206.0.5'
     }
