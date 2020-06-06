@@ -12,7 +12,7 @@ node("jenkins-slave"){
     }
 
     stage('linkis-metadata') {
-        
+        sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn -N clean  install'
             sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package -f metadata/pom.xml'
         
         
