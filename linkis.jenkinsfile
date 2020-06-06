@@ -36,7 +36,7 @@ node("jenkins-slave"){
      stage('docker push') {
         sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-gateway'
         sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-metadata'
-        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-publicservice'
+        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-resourcemanager'
     }
     stage('k8s deploy'){
         echo 'deploy success'
