@@ -1,12 +1,12 @@
 node("jenkins-slave"){
     stage('install base pom') {
         //sh label: '', script: 'source ~/.bashrc'
-        sh label: '', script: 'mvn -N clean  install'
+        sh label: '', script: '/usr/local/apache-maven-3.6.3/bin/mvn -N clean  install'
     }
 
     stage('mvn build') {
         sh label: '', script: 'export MAVEN_OPTS=-Xmx512m'
-        sh label: '', script: 'mvn clean package'
+        sh label: '', script: '/usr/local/apache-maven-3.6.3/bin/mvn clean package'
     }
 
     stage('docker login') {
