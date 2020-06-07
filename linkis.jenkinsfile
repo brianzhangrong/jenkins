@@ -1,6 +1,6 @@
 node("jenkins-slave"){
     stage('install base pom') {
-        sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn -N clean  install'
+        sh label: '', script: 'mvn -N clean  install'
     }
 
     stage('mvn build') {
