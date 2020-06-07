@@ -4,7 +4,7 @@ node("jenkins-slave"){
     }
 
     stage('mvn build') {
-        sh label: '', script: 'set MAVEN_OPTS= -Xms1024m -Xmx1024m -XX:MaxNewSize=256m  -XX:MaxPermSize=256m'
+        sh label: '', script: 'set MAVEN_OPTS= -Xms1800m -Xmx1800m -XX:MaxNewSize=256m  -XX:MaxPermSize=256m'
         sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package'
     }
 
