@@ -1,10 +1,16 @@
 node("jenkins-slave"){
+
+    parameters {
+     choice(
+         choices: ['linkis-gateway', 'linkis-publicservice', 'linkis-metadata', 'linkis-resourcemanager', 'linkis-bml', 'linkis-publicservice', 'linkis-ujes-hive-entrance', 'linkis-ujes-hive-enginemanager', 'linkis-ujes-jdbcentrance', 'linkis-ujes-mlsql-entrance', 'linkis-ujes-pipeline-enginemanager', 'linkis-ujes-pipeline-entrance', 'linkis-ujes-spark-enginemanager', 'linkis-ujes-spark-entrance', 'linkis-ujes-shell-enginemanager', 'linkis-ujes-shell-entrance', 'linkis-ujes-python-enginemanager', 'linkis-ujes-python-entrance'],
+         description: '',
+         name: 'module'
+         )
+    }
     stage('install base pom') {
         sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn -N clean  install'
     }
-    parameters {
-     choice(choices: ['linkis-gateway', 'linkis-publicservice', 'linkis-metadata', 'linkis-resourcemanager', 'linkis-bml', 'linkis-publicservice', 'linkis-ujes-hive-entrance', 'linkis-ujes-hive-enginemanager', 'linkis-ujes-jdbcentrance', 'linkis-ujes-mlsql-entrance', 'linkis-ujes-pipeline-enginemanager', 'linkis-ujes-pipeline-entrance', 'linkis-ujes-spark-enginemanager', 'linkis-ujes-spark-entrance', 'linkis-ujes-shell-enginemanager', 'linkis-ujes-shell-entrance', 'linkis-ujes-python-enginemanager', 'linkis-ujes-python-entrance'], description: '', name: 'module')
-    }
+ 
     stage('mvn build') {
         sh label: '', script: 'export MAVEN_OPTS=-Xmx1500m'
        // if $module == 'linkis-gateway'
