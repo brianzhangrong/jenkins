@@ -1,30 +1,34 @@
 node("jenkins-slave"){
-
-    parameters {
-     choice(
-         choices: ['linkis-gateway', 'linkis-publicservice', 'linkis-metadata', 'linkis-resourcemanager', 'linkis-bml', 'linkis-publicservice', 'linkis-ujes-hive-entrance', 'linkis-ujes-hive-enginemanager', 'linkis-ujes-jdbcentrance', 'linkis-ujes-mlsql-entrance', 'linkis-ujes-pipeline-enginemanager', 'linkis-ujes-pipeline-entrance', 'linkis-ujes-spark-enginemanager', 'linkis-ujes-spark-entrance', 'linkis-ujes-shell-enginemanager', 'linkis-ujes-shell-entrance', 'linkis-ujes-python-enginemanager', 'linkis-ujes-python-entrance'],
-         description: '',
-         name: 'module'
-         )
-    }
     stage('install base pom') {
         sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn -N clean  install'
     }
- 
+
     stage('mvn build') {
-        sh label: '', script: 'export MAVEN_OPTS=-Xmx1500m'
-       // if $module == 'linkis-gateway'
-            //sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package '
-            
-       // if 
-       echo  ${params.module}
+        sh label: '', script: 'export MAVEN_OPTS=-Xmx512m'
+        sh label: '', script: '/home/jenkins/agent/apache-maven-3.6.3/bin/mvn clean  package'
     }
 
     stage('docker login') {
         sh label: '', script:'cat /opt/password/password |docker login --username=admin --password-stdin 10.206.0.5'
     }
      stage('docker push') {
-        sh label: '', script:'docker push 10.206.0.5/library/linkis:$module'
+        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-gateway'
+        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-metadata'
+        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-resourcemanager'
+        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-bml'
+        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-publicservice'
+        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-ujes-hive-entrance'
+        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-ujes-hive-enginemanager'
+        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-ujes-jdbcentrance'
+        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-ujes-mlsql-entrance'
+        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-ujes-pipeline-enginemanager'
+        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-ujes-pipeline-entrance'
+        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-ujes-spark-enginemanager'
+        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-ujes-spark-entrance'
+        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-ujes-shell-enginemanager'
+        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-ujes-shell-entrance'
+        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-ujes-python-enginemanager'
+        sh label: '', script:'docker push 10.206.0.5/library/linkis:linkis-ujes-python-entrance'
     }
     stage('k8s deploy'){
         echo 'deploy success'
