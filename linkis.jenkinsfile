@@ -1,6 +1,6 @@
 node("jenkins-slave"){
     stage('install base pom') {
-        sh label: '', script: 'source ~/.bashrc'
+        //sh label: '', script: 'source ~/.bashrc'
         sh label: '', script: 'mvn -N clean  install'
     }
 
